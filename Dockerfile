@@ -2,16 +2,14 @@ FROM ubuntu:20.04
 
 # instalacao dos softwares de base
 ARG DEBIAN_FRONTEND=noninteractive
-RUN apt-get update 
-RUN apt-get install -y openssl curl vim wget apt-transport-https apt-utils gnupg2
+RUN apt-get update && apt-get install -y openssl curl vim wget apt-transport-https apt-utils gnupg2
 
 # adicao do repositorio do elastic search
 RUN wget -qO - https://artifacts.elastic.co/GPG-KEY-elasticsearch | apt-key add -
 RUN echo "deb https://artifacts.elastic.co/packages/7.x/apt stable main" | tee /etc/apt/sources.list.d/elastic-7.x.list
 
 # instalacao dos softwares para rodar o Magento
-RUN apt-get update 
-RUN apt-get install -y nginx  \
+RUN apt-get update && apt-get install -y nginx  \
         php7.4-cli php7.4-fpm php7.4-bcmath php7.4-ctype \
         php7.4-curl php7.4-xml php7.4-gd php7.4-common \ 
         php7.4-intl php7.4-mbstring php7.4-mysql php7.4-soap \ 
