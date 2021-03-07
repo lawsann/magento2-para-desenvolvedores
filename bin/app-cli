@@ -1,0 +1,2 @@
+[ -z "$1" ] && echo "Por favor, digite um comando para ser executado no container da aplicacao PHP" && exit
+docker-compose exec phpapp "$@"

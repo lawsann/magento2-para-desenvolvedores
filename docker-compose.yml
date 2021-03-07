@@ -1,0 +1,44 @@
+version: "3"
+
+services:
+  
+  httpserver:
+    build: docker-images/nginx/.
+    ports:
+      - "80:80"
+    volumes: &sharedvolumes
+      - appdata:/var/www/magento
+    depends_on:
+      - phpapp
+
+  phpapp:
+    build: docker-images/php-fpm/.
+    volumes: *sharedvolumes
+    depends_on:
+      - db
+      - search
+
+  db:
+    image: mariadb:10.2
+    ports:
+      - "3306:3306"
+    volumes:
+      - dbdata:/var/lib/mysql
+    env_file: docker-images/mariadb/var.env
+  
+  search:
+    image: elasticsearch:7.7.1
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    environment:
+      - "discovery.type=single-node"
+      - "ES_JAVA_OPTS=-Xms1g -Xmx1g"
+  
+  #redis:
+  #  image: redis:5.0-alpine
+
+
+volumes:
+  appdata:
+  dbdata:

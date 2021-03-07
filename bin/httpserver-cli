@@ -1,0 +1,2 @@
+[ -z "$1" ] && echo "Por favor, digite um comando para ser executado no container do HTTP Server" && exit
+docker-compose exec httpserver "$@"
