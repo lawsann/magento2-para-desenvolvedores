@@ -14,7 +14,7 @@ O projeto cria quatro serviços para executar o software Magento, utilizando o D
 
 ### Construção das imagens (build)
 
-Digite o seguinte comando para baixar e construir as imagens dos containers na sua máquina hospedeira:
+Digite o seguinte comando para baixar e construir as imagens dos container's na sua máquina hospedeira:
 
 ```
 docker-compose build
@@ -28,3 +28,27 @@ Digite o seguinte comando para criar e iniciar os container em background:
 docker-compose up -d
 ```
 
+### Download Magento
+
+O projeto possui script's bash que funcionam como atalhos para algumas execuções de comandos nos container's. Estes script's localizam-se na pasta bin.
+
+Um dos primeiros comandos úteis a serem utilizados realiza o download do Magento na versão 2.4.2. Para executar este comando, a partir da pasta base do repositório, digite o seguinte comando:
+
+
+```
+bin/download
+```
+
+As credenciais no Magento Marketplace serão solicitadas. Caso ainda não as tenha, faça seu cadastro em [https://marketplace.magento.com/](https://marketplace.magento.com/).
+
+### Instalação Magento
+
+Para realizar a instalação do Magento com os dados básicos pré-definidos, execute o seguinte comando em seu terminal:
+
+```
+bin/install
+```
+
+### Usuários Windows
+
+Para usuários do sistema operacional Windows que não consigam executar script's em seus terminais, deixamos as referências dos comandos completos na pasta `bin/windows`. Copie o comando contido no arquivo relativo à ação desejada, cole no terminal e execute-o.
