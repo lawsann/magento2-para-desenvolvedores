@@ -1,0 +1,2 @@
+# substitua {comando} pelo comando (e seus parâmetros) que deseja executar no serviço / container phpapp da aplicação
+docker-compose exec phpapp {comando}

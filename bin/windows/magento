@@ -1,0 +1,2 @@
+# substitua {comando} pela instrução do magento que gostaria de executar
+docker-compose exec phpapp bin/magento {comando}
