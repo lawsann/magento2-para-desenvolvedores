@@ -1,6 +1,6 @@
 # Magento 2 para desenvolvedores
 
-## Capípulo 01
+## Capítulo 01
 ### Projeto Docker
 
 Este repositório contém o projeto Docker para criação da do ambiente de desenvolvimento que será utilizado no decorrer do livro.
