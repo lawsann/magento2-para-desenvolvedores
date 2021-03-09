@@ -3,7 +3,7 @@
 ## Capítulo 01
 ### Projeto Docker
 
-Este repositório contém o projeto Docker para criação da do ambiente de desenvolvimento que será utilizado no decorrer do livro.
+Este repositório contém o projeto Docker para criação do ambiente de desenvolvimento que será utilizado no decorrer do livro.
 
 O projeto cria quatro serviços para executar o software Magento, utilizando o Docker Compose:
 
@@ -30,7 +30,7 @@ docker-compose up -d
 
 ### Download Magento
 
-O projeto possui script's bash que funcionam como atalhos para algumas execuções de comandos nos container's. Estes script's localizam-se na pasta bin.
+O projeto possui script's bash que funcionam como atalhos para algumas execuções de comandos nos container's. Estes script's estão localizados na pasta bin.
 
 Um dos primeiros comandos úteis a serem utilizados realiza o download do Magento na versão 2.4.2. Para executar este comando, a partir da pasta base do repositório, digite o seguinte comando:
 
