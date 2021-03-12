@@ -58,22 +58,22 @@ Para usuários do sistema operacional Windows que não consigam executar script'
 
 No momento do download do Magento, pode aparecer o seguinte erro:
 
----
+```
 Project directory "/var/www/magento/." is not empty
----
+```
 
 Neste caso, ocorreu algum problema com o Composer no momento em que ele tentava baixar as dependências do Magento, encerrando o processo no meio do download. Isto faz com que alguns arquivos já tenham sido baixados e pasta não esteja mais vazia, gerando a mensagem de erro citada acima na retentativa de download.
 
 Para corrigir o problema, execute os comandos abaixo e depois tente executar o comando de download novamente:
 
----
+```
 docker-compose exec phpapp /bin/rm -rf /var/www/magento/*
 docker-compose exec phpapp /bin/rm -rf /var/www/magento/.*
----
+```
 
 A tentativa nesta ocasião é remover os arquivos que estão na pasta /var/www/magento para solucionar o problema. Em alguns casos, usuários no sistema operacional Windows não obtiveram sucesso com os comandos acima. Temos ainda, como opção, os comandos abaixo:
 
----
+```
 docker container exec m2pd_phpapp_1 /bin/rm -rf /var/www/magento/*
 docker container exec m2pd_phpapp_1 /bin/rm -rf /var/www/magento/.*
----
+```
