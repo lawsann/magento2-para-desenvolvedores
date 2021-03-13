@@ -1,0 +1,2 @@
+#!/bin/bash
+docker cp ./src/./ "$(docker-compose ps -q phpapp)":/var/www/magento/
