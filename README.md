@@ -9,4 +9,4 @@ Seguindo os passos do primeiro capítulo para ter os serviços Docker rodando, c
 bin/publish-src
 ```
 
-Mais uma vez, para usuários do sistema operacional Windows, ou outros que não consigam executar os scritp's da pasta bin em sua máquina, devem recorrer aos comandos completos na pasta `bin/windows`. 
+Mais uma vez, usuários do sistema operacional Windows e/ou que não consigam executar os scritp's da pasta bin em sua máquina, devem recorrer aos comandos completos na pasta `bin/windows`. 
