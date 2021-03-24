@@ -56,24 +56,27 @@ Para usuários do sistema operacional Windows que não consigam executar script'
 
 ### Erros comuns
 
+#### Pasta de instalação não vazia
+
 No momento do download do Magento, pode aparecer o seguinte erro:
 
 ```
 Project directory "/var/www/magento/." is not empty
 ```
 
-Neste caso, ocorreu algum problema com o Composer no momento em que ele tentava baixar as dependências do Magento, encerrando o processo no meio do download. Isto faz com que alguns arquivos já tenham sido baixados e pasta não esteja mais vazia, gerando a mensagem de erro citada acima na retentativa de download.
+Isto significa que a pasta onde será instalado o Magento não está vazia. Provavelmente, em uma tentativa de instalação anterior, ocorreu algum problema com o Composer no momento em que ele tentava baixar as dependências do Magento, encerrando o processo no meio do download. Isto faz com que alguns arquivos que já tenham sido baixados na pasta não sejam excluídos e ela não esteja mais vazia, gerando a mensagem de erro citada acima.
 
-Para corrigir o problema, execute os comandos abaixo e depois tente executar o comando de download novamente:
+Para corrigir o problema, execute os comandos abaixo e depois tente realizar a ação de download novamente:
 
 ```
 docker-compose exec phpapp /bin/rm -rf /var/www/magento/*
 docker-compose exec phpapp /bin/rm -rf /var/www/magento/.*
 ```
 
-A tentativa nesta ocasião é remover os arquivos que estão na pasta /var/www/magento para solucionar o problema. Em alguns casos, usuários no sistema operacional Windows não obtiveram sucesso com os comandos acima. Temos ainda, como opção, os comandos abaixo:
+Os comandos acima tentam remover o conteúdo da pasta /var/www/magento para solucionar o problema. Em alguns casos, usuários no sistema operacional Windows não obtiveram sucesso em realizar a remoção por meio das instruções acima. Temos ainda, como opção, os comandos abaixo:
 
 ```
 docker container exec m2pd_phpapp_1 /bin/rm -rf /var/www/magento/*
 docker container exec m2pd_phpapp_1 /bin/rm -rf /var/www/magento/.*
 ```
+Caso não surta efeito e os arquivos permaneçam na pasta, busque conectar-se ao container Docker utilizando alguma ferramenta e remova os arquivos. Não se esqueça de remover também os arquivos escondidos (iniciados com o caractere '.' - ponto). Algumas IDE's possuem extensões para esta finalidade, como por exemplo, o VSCode, que possui a extensão 'Remote - Containers' para abrir uma pasta em um container Docker em execução como a pasta base do projeto - [https://code.visualstudio.com/docs/remote/containers-tutorial](https://code.visualstudio.com/docs/remote/containers-tutorial).
