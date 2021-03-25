@@ -79,4 +79,18 @@ Os comandos acima tentam remover o conteúdo da pasta /var/www/magento para solu
 docker container exec m2pd_phpapp_1 /bin/rm -rf /var/www/magento/*
 docker container exec m2pd_phpapp_1 /bin/rm -rf /var/www/magento/.*
 ```
+
 Caso não surta efeito e os arquivos permaneçam na pasta, busque conectar-se ao container Docker utilizando alguma ferramenta e remova os arquivos. Não se esqueça de remover também os arquivos escondidos (iniciados com o caractere '.' - ponto). Algumas IDE's possuem extensões para esta finalidade, como por exemplo, o VSCode, que possui a extensão 'Remote - Containers' para abrir uma pasta em um container Docker em execução como a pasta base do projeto - [https://code.visualstudio.com/docs/remote/containers-tutorial](https://code.visualstudio.com/docs/remote/containers-tutorial).
+
+Existe ainda uma alternativa um pouco mais abrupta: remover o volume do Docker. Caso nenhuma das alternativas anteriores funcione, apague volume utilizado pelo projeto, geralmente nomeado como m2pd_appdata pelo Docker Compose. Para tanto, utilize o comando abaixo:
+
+```
+docker volume rm m2pd_appdata
+```
+
+Após a remoção, faça o setup do ambiente novamente, por meio da instrução a seguir:
+
+
+```
+docker-compose up -d
+```
