@@ -6,6 +6,7 @@ use Magento\Framework\Controller\Result\JsonFactory;
 use Magento\Framework\Controller\Result\Json as JsonResult;
 use Magento\Framework\App\Action\Action;
 use Magento\Framework\App\Action\Context;
+use Mpd\EstimateProductShipping\Model\ShippingCalculator;
 
 /**
  * Action class responsible to collect 
@@ -19,14 +20,22 @@ class Index extends Action
     protected $resultJsonFactory;
     
     /**
+     * @var ShippingCalculator
+     */
+    protected $calculator;
+    
+    /**
      * @param Context $context
      * @param JsonFactory $resultJsonFactory
+     * @param ShippingCalculator $calculator
      */
     public function __construct(
         Context $context,
-        JsonFactory $resultJsonFactory
+        JsonFactory $resultJsonFactory,
+        ShippingCalculator $calculator
     ) {
         $this->resultJsonFactory = $resultJsonFactory;
+        $this->calculator = $calculator;
         parent::__construct($context);
     }
 
@@ -36,46 +45,54 @@ class Index extends Action
      */
     public function execute()
     {
+        $responseJson = [];
+
+        try
+        {
+            list($postcode, $productId, $qty) = $this->_loadAndValidateParams();
+
+            $responseJson["rates"] = $this->calculator->getProductRates($postcode, $productId, $qty);
+            $responseJson["success"] = true;
+        }
+        catch(\Exception $e)
+        {
+            $responseJson["error_message"] = __($e->getMessage());
+            $responseJson["success"] = false;
+        }
+
         $result = $this->resultJsonFactory->create();
-        $result->setData
-        ([
-            "success" => true,
-            "rates" => 
-            [
-                [
-                    "carrier_code" => "ownfleet",
-                    "carrier_title" => "Entrega Própria",
-                    "methods" => 
-                    [
-                        [
-                            "method_code" => "economic",
-                            "method_title" => "Entrega Econômica - em até 5 dias úteis",
-                            "price" => 5,
-                        ], [
-                            "method_code" => "express",
-                            "method_title" => "Entrega Expressa - em até 1 dia útil",
-                            "price" => 20,
-                        ],
-                    ],
-                ],[
-                    "carrier_code" => "correios",
-                    "carrier_title" => "Correios",
-                    "methods" => 
-                    [
-                        [
-                            "method_code" => "pac",
-                            "method_title" => "PAC - em até 10 dias útieis",
-                            "price" => 19.80,
-                        ], [
-                            "method_code" => "sedex",
-                            "method_title" => "Sedex - em até 3 dias úteis",
-                            "price" => 39.90,
-                        ],
-                    ],
-                ],
-            ]
-        ]);
+        $result->setData($responseJson);
 
         return $result;
+    }
+
+    /**
+     * Gets the params on request object and validate them
+     * @return Array
+     */
+    private function _loadAndValidateParams()
+    {
+        $postcode = preg_replace("/[^0-9,.]/", "", $this->getRequest()->getParam("postcode"));
+            
+        if(!$postcode)
+        {
+            throw new \Exception("Please inform a valid postcode.");
+        }
+
+        $productId = intval($this->getRequest()->getParam("product_id"));
+
+        if(!$productId)
+        {
+            throw new \Exception("Please inform a product ID.");
+        }
+
+        $qty = floatval($this->getRequest()->getParam("qty"));
+
+        if(!$qty)
+        {
+            $qty = 1;
+        }
+
+        return [$postcode, $productId, $qty];
     }
 }
