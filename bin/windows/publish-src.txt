@@ -1,2 +1,1 @@
-docker cp ./src/./ "$(docker-compose ps -q phpapp):/var/www/magento/"
-docker-compose exec -u root phpapp chown -R magento:magento /var/www/magento/app/code
+docker cp ./src/./ "$(docker-compose ps -q phpapp):/var/www/magento/" && docker-compose exec -u root phpapp chown -R magento:magento /var/www/magento/app/code
