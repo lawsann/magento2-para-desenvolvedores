@@ -3,7 +3,9 @@
 namespace Mpd\EstimateProductShipping\Model;
 
 use Magento\Catalog\Api\ProductRepositoryInterface;
+use Magento\Quote\Model\Quote;
 use Magento\Quote\Model\QuoteFactory;
+use Magento\Quote\Model\Quote\Item;
 use Magento\Quote\Model\Quote\ItemFactory as QuoteItemFactory;
 
 class ShippingCalculator
@@ -51,9 +53,11 @@ class ShippingCalculator
         $product = $this->productRepository->getById($productId);
         
         // creates an empty shopping cart
+        /** @var \Magento\Quote\Model\Quote */
         $quote = $this->quoteFactory->create();
         
-        // adds the product
+        // adds product to cart
+        /** @var \Magento\Quote\Model\Quote\Item */
         $item = $this->quoteItemFactory->create();
         $item->setProduct($product);
         $item->setQty($qty);
