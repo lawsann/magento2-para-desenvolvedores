@@ -11,7 +11,7 @@ use Magento\Quote\Model\Quote\ItemFactory as QuoteItemFactory;
 /**
  * Collects shipping rates
  */
-class ShippingCalculator
+class RatesCollector
 {
     /**
      * @var ProductRepositoryInterface

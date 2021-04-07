@@ -7,7 +7,7 @@ use Magento\Framework\App\Action\Context;
 use Magento\Framework\Controller\Result\Json as JsonResult;
 use Magento\Framework\Controller\Result\JsonFactory;
 use Magento\Framework\Exception\LocalizedException;
-use Mpd\EstimateProductShipping\Model\ShippingCalculator;
+use Mpd\EstimateProductShipping\Model\RatesCollector;
 
 /**
  * Action class responsible to collect
@@ -21,22 +21,22 @@ class Index extends Action
     protected $resultJsonFactory;
     
     /**
-     * @var ShippingCalculator
+     * @var RatesCollector
      */
-    protected $calculator;
+    protected $ratesCollector;
     
     /**
      * @param Context $context
      * @param JsonFactory $resultJsonFactory
-     * @param ShippingCalculator $calculator
+     * @param RatesCollector $ratesCollector
      */
     public function __construct(
         Context $context,
         JsonFactory $resultJsonFactory,
-        ShippingCalculator $calculator
+        RatesCollector $ratesCollector
     ) {
         $this->resultJsonFactory = $resultJsonFactory;
-        $this->calculator = $calculator;
+        $this->ratesCollector = $ratesCollector;
         parent::__construct($context);
     }
 
@@ -51,7 +51,7 @@ class Index extends Action
         try {
             list($postcode, $productId, $qty) = $this->_loadAndValidateParams();
 
-            $responseJson["rates"] = $this->calculator->getProductRates($postcode, $productId, $qty);
+            $responseJson["rates"] = $this->ratesCollector->getProductRates($postcode, $productId, $qty);
             $responseJson["success"] = true;
         } catch (\Exception $e) {
             $responseJson["error_message"] = __($e->getMessage());
@@ -70,16 +70,16 @@ class Index extends Action
      */
     private function _loadAndValidateParams()
     {
-        $postcode = preg_replace("/[^0-9,.]/", "", $this->getRequest()->getParam("postcode"));
+        $postcode = preg_replace("/[^0-9]/", "", $this->getRequest()->getParam("postcode"));
             
         if (!$postcode) {
-            throw new LocalizedException("Please inform a valid postcode.");
+            throw new LocalizedException(__("Please inform a valid postcode"));
         }
 
         $productId = (int) $this->getRequest()->getParam("product_id");
 
         if (!$productId) {
-            throw new LocalizedException("Please inform a product ID.");
+            throw new LocalizedException(__("Please inform the product ID"));
         }
 
         $qty = (float) $this->getRequest()->getParam("qty");
