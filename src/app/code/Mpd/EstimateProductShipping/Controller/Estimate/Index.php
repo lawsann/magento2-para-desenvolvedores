@@ -2,14 +2,15 @@
 
 namespace Mpd\EstimateProductShipping\Controller\Estimate;
 
-use Magento\Framework\Controller\Result\JsonFactory;
-use Magento\Framework\Controller\Result\Json as JsonResult;
 use Magento\Framework\App\Action\Action;
 use Magento\Framework\App\Action\Context;
+use Magento\Framework\Controller\Result\Json as JsonResult;
+use Magento\Framework\Controller\Result\JsonFactory;
+use Magento\Framework\Exception\LocalizedException;
 use Mpd\EstimateProductShipping\Model\ShippingCalculator;
 
 /**
- * Action class responsible to collect 
+ * Action class responsible to collect
  * rates to product shipping
  */
 class Index extends Action
@@ -47,15 +48,12 @@ class Index extends Action
     {
         $responseJson = [];
 
-        try
-        {
+        try {
             list($postcode, $productId, $qty) = $this->_loadAndValidateParams();
 
             $responseJson["rates"] = $this->calculator->getProductRates($postcode, $productId, $qty);
             $responseJson["success"] = true;
-        }
-        catch(\Exception $e)
-        {
+        } catch (\Exception $e) {
             $responseJson["error_message"] = __($e->getMessage());
             $responseJson["success"] = false;
         }
@@ -74,22 +72,19 @@ class Index extends Action
     {
         $postcode = preg_replace("/[^0-9,.]/", "", $this->getRequest()->getParam("postcode"));
             
-        if(!$postcode)
-        {
-            throw new \Exception("Please inform a valid postcode.");
+        if (!$postcode) {
+            throw new LocalizedException("Please inform a valid postcode.");
         }
 
-        $productId = intval($this->getRequest()->getParam("product_id"));
+        $productId = (int) $this->getRequest()->getParam("product_id");
 
-        if(!$productId)
-        {
-            throw new \Exception("Please inform a product ID.");
+        if (!$productId) {
+            throw new LocalizedException("Please inform a product ID.");
         }
 
-        $qty = floatval($this->getRequest()->getParam("qty"));
+        $qty = (float) $this->getRequest()->getParam("qty");
 
-        if(!$qty)
-        {
+        if (!$qty) {
             $qty = 1;
         }
 

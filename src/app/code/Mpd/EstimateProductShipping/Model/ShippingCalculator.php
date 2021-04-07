@@ -8,6 +8,9 @@ use Magento\Quote\Model\QuoteFactory;
 use Magento\Quote\Model\Quote\Item;
 use Magento\Quote\Model\Quote\ItemFactory as QuoteItemFactory;
 
+/**
+ * Collects shipping rates
+ */
 class ShippingCalculator
 {
     /**
@@ -75,8 +78,8 @@ class ShippingCalculator
     }
 
     /**
-     * Formats the rates for further use in another area of 
-     * the module 
+     * Formats the rates for further use in another area of
+     * the module
      * @param Array $groupedRates
      * @return Array
      */
@@ -84,12 +87,9 @@ class ShippingCalculator
     {
         $returnedRates = [];
 
-        foreach($groupedRates as $carrierCode => $carrierRates)
-        {
-            foreach($carrierRates as $rate)
-            {
-                $returnedRates[] = 
-                [
+        foreach ($groupedRates as $carrierCode => $carrierRates) {
+            foreach ($carrierRates as $rate) {
+                $returnedRates[] = [
                     "carrier_code"  => $rate->getCarrier(),
                     "carrier_title" => $rate->getCarrierTitle(),
                     "method_code"   => $rate->getMethod(),
