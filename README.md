@@ -1,12 +1,6 @@
 # Magento 2 para desenvolvedores
 
-## Capítulo 02
-### Primeiro módulo Magento
+## Capítulo 03
+### Código base PHP
 
-Seguindo os passos do primeiro capítulo para ter os serviços Docker rodando, copíe os arquivos do módulo a ser criado para o container que roda o Magento por meio do seguinte comando:
-
-```
-bin/publish-src
-```
-
-Mais uma vez, usuários do sistema operacional Windows e/ou que não consigam executar os scritp's da pasta bin em sua máquina, devem recorrer aos comandos completos na pasta `bin/windows`. 
+Neste capítulo, a funcionalidade principal do módulo de cálculo de frete de um produto será desenvolvida. Utilize este branch como uma fonte de consultas, mas evite clonar o projeto antes de ler o capítulo. Assim, o leitor poderá desenvolver gradualmente as classes, entendendo cada trecho do código criado.
