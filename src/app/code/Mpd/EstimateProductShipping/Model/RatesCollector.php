@@ -3,6 +3,7 @@
 namespace Mpd\EstimateProductShipping\Model;
 
 use Magento\Catalog\Api\ProductRepositoryInterface;
+use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Quote\Model\Quote;
 use Magento\Quote\Model\QuoteFactory;
 use Magento\Quote\Model\Quote\Item;
@@ -50,6 +51,7 @@ class RatesCollector
      * @param Integer $productId
      * @param Double $qty
      * @return Array
+     * @throws NoSuchEntityException
      */
     public function getProductRates($postcode, $productId, $qty)
     {

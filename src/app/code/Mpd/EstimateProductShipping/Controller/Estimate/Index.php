@@ -53,6 +53,9 @@ class Index extends Action
 
             $responseJson["rates"] = $this->ratesCollector->getProductRates($postcode, $productId, $qty);
             $responseJson["success"] = true;
+        } catch (LocalizedException $e) {
+            $responseJson["error_message"] = $e->getMessage();
+            $responseJson["success"] = false;
         } catch (\Exception $e) {
             $responseJson["error_message"] = __($e->getMessage());
             $responseJson["success"] = false;
@@ -71,7 +74,7 @@ class Index extends Action
     private function _loadAndValidateParams()
     {
         $postcode = preg_replace("/[^0-9]/", "", $this->getRequest()->getParam("postcode"));
-            
+
         if (!$postcode) {
             throw new LocalizedException(__("Please inform a valid postcode"));
         }
